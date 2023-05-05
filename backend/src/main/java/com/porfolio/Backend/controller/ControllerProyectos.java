@@ -8,6 +8,9 @@ import com.porfolio.Backend.model.Proyectos;
 import com.porfolio.Backend.service.IProyectosService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/proyectos")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ControllerProyectos {
     
     @Autowired
@@ -47,22 +50,23 @@ public class ControllerProyectos {
     }
 
     @PutMapping("/editar/{id}")
-    public Proyectos editProyectos(@PathVariable Long id,
-            @RequestParam("link") String nuevoLink,
-            @RequestParam("img") String nuevoImg,
-            @RequestParam("nombre") String nuevoNombre,
-            @RequestParam("descripcion") String nuevoDescripcion) {
+    public ResponseEntity<?> editProyecto(@PathVariable Long id,
+            @RequestBody Proyectos perDetail) {
 
         Proyectos proy = proyServ.buscarProyectos(id);
 
-        proy.setLink(nuevoLink);
-        proy.setImg(nuevoImg);
-        proy.setNombre(nuevoNombre);
-        proy.setDescripcion(nuevoDescripcion);
+        proy.setImg(perDetail.getImg());
+        proy.setNombre(perDetail.getNombre());
+        proy.setDescripcion(perDetail.getDescripcion());
 
         proyServ.crearProyecto(proy);
 
-        return proy;
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
+    @GetMapping("/detail/{id}")
+    public Proyectos detalleProyecto(@PathVariable Long id){
+        return proyServ.buscarProyectos(id);
     }
     
     

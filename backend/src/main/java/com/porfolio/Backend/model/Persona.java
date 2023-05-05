@@ -19,7 +19,7 @@ public class Persona {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
     
-    
+    private String link;
     private String img;
     private String nombre;
     private String descripcion;
@@ -27,20 +27,22 @@ public class Persona {
     public Persona() {
     }
 
-    public Persona(String img, String nombre, String descripcion) {
+    public Persona(String link, String img, String nombre, String descripcion) {
+        this.link = link;
         this.img = img;
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
 
+    public Persona(Long id, String link, String img, String nombre, String descripcion) {
+        this.id = id;
+        this.link = link;
+        this.img = img;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+    }
 
     
-    public Persona(Long id, String img, String nombre, String descripcion) {
-        this.id = id;
-        this.img = img;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-    }
     
     
     
