@@ -50,7 +50,8 @@ public class ControllerExperiencia {
             @RequestBody Experiencia expDetail) {
 
         Experiencia exp = expServ.buscarExperiencia(id);
-
+        
+        exp.setLink(expDetail.getLink());
         exp.setImg(expDetail.getImg());
         exp.setNombre(expDetail.getNombre());
         exp.setDescripcion(expDetail.getDescripcion());

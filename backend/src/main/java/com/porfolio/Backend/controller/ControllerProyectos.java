@@ -51,13 +51,14 @@ public class ControllerProyectos {
 
     @PutMapping("/editar/{id}")
     public ResponseEntity<?> editProyecto(@PathVariable Long id,
-            @RequestBody Proyectos perDetail) {
+            @RequestBody Proyectos proyDetail) {
 
         Proyectos proy = proyServ.buscarProyectos(id);
 
-        proy.setImg(perDetail.getImg());
-        proy.setNombre(perDetail.getNombre());
-        proy.setDescripcion(perDetail.getDescripcion());
+        proy.setLink(proyDetail.getLink());
+        proy.setImg(proyDetail.getImg());
+        proy.setNombre(proyDetail.getNombre());
+        proy.setDescripcion(proyDetail.getDescripcion());
 
         proyServ.crearProyecto(proy);
 
