@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,22 +30,25 @@ public class ControllerExperiencia {
     @Autowired
     private IExperienciaService expServ;
     
-    @PostMapping("/new")
-    public void agregarExperiencia(@RequestBody Experiencia exp){
-        expServ.crearExperiencia(exp);
-    }
-    
     @GetMapping("/ver")
     @ResponseBody
     public List<Experiencia> verExperiencia () {
         return expServ.verExperiencia();
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/new")
+    public void agregarExperiencia(@RequestBody Experiencia exp){
+        expServ.crearExperiencia(exp);
+    }    
+    
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping ("/delete/{id}")
     public void borrarExperiencia(@PathVariable Long id){
         expServ.borrarExperiencia(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/editar/{id}")
     public ResponseEntity<?> editExperiencia(@PathVariable Long id,
             @RequestBody Experiencia expDetail) {
@@ -60,6 +64,7 @@ public class ControllerExperiencia {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    
     
     @GetMapping("/detail/{id}")
     public Experiencia detalleEducacion(@PathVariable Long id){
